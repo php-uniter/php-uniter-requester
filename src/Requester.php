@@ -5,7 +5,6 @@ namespace PhpUniter\PhpUniterRequester;
 use GuzzleHttp\Exception\GuzzleException;
 use PhpUniter\PhpUniterRequester\Application\File\Exception\FileNotAccessed;
 use PhpUniter\PhpUniterRequester\Application\Obfuscator\ObfuscatorFabric;
-use PhpUniter\PhpUniterRequester\Application\Obfuscator\Preprocessor;
 use PhpUniter\PhpUniterRequester\Application\PhpUniter\Entity\PhpUnitTest;
 use PhpUniter\PhpUniterRequester\Application\PhpUnitService;
 use PhpUniter\PhpUniterRequester\Application\PhpUnitUserRegisterService;
@@ -13,7 +12,6 @@ use PhpUniter\PhpUniterRequester\Application\PhpUnitUserRegisterService;
 class Requester
 {
     public PhpUnitService $phpUnitService;
-    public Preprocessor $preprocessor;
     public ObfuscatorFabric $obfuscatorFabric;
     public PhpUnitUserRegisterService $registerService;
 
@@ -21,13 +19,12 @@ class Requester
     private PhpUnitTest $phpUnitTest;
     private string $basePath;
 
-    public function __construct(PhpUnitUserRegisterService $registerService, PhpUnitService $phpUnitService, Preprocessor $preprocessor, string $basePath)
+    public function __construct(PhpUnitUserRegisterService $registerService, PhpUnitService $phpUnitService, string $basePath)
     {
         $this->report = new Report();
         $this->obfuscatorFabric = new ObfuscatorFabric();
         $this->registerService = $registerService;
         $this->phpUnitService = $phpUnitService;
-        $this->preprocessor = $preprocessor;
         $this->basePath = $basePath;
     }
 
@@ -41,7 +38,6 @@ class Requester
             }
 
             try {
-                $this->preprocessor->preprocess($filePath);
                 $localFile = $this->obfuscatorFabric->createFile($filePath);
                 $this->phpUnitTest = $this->phpUnitService->process($localFile, $this->obfuscatorFabric);
                 $this->report->info('Generated test was written to '.$this->phpUnitTest->getPathToTest());

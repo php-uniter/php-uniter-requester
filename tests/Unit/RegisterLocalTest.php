@@ -3,7 +3,6 @@
 namespace PhpUniter\PhpUniterRequester\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use PhpUniter\PhpUniterRequester\Application\Obfuscator\Preprocessor;
 use PhpUniter\PhpUniterRequester\Report;
 use PhpUniter\PhpUniterRequester\Requester;
 use PhpUniter\PhpUniterRequester\RequesterFactory;
@@ -35,8 +34,7 @@ class RegisterLocalTest extends TestCase
     {
         $registerService = RequesterFactory::registerServiceFactory($this->conf);
         $phpUnitService = RequesterFactory::generateServiceFactory($this->conf);
-        $preprocessor = new Preprocessor(true);
-        $requester = new Requester($registerService, $phpUnitService, $preprocessor, $this->projectRoot);
+        $requester = new Requester($registerService, $phpUnitService, $this->projectRoot);
         $code = $requester->generate(__DIR__.'/Application/Obfuscator/Entity/Fixtures/SourceClass.php.input', $this->projectRoot);
 
         self::assertEquals(0, $code);
@@ -46,8 +44,7 @@ class RegisterLocalTest extends TestCase
     {
         $registerService = RequesterFactory::registerServiceFactory($this->conf);
         $phpUnitService = RequesterFactory::generateServiceFactory($this->conf);
-        $preprocessor = new Preprocessor(true);
-        $requester = new Requester($registerService, $phpUnitService, $preprocessor, $this->projectRoot);
+        $requester = new Requester($registerService, $phpUnitService, $this->projectRoot);
         $code = $requester->register(
             'a'.uniqid().'@test.ru',
             'NewMockery0',
