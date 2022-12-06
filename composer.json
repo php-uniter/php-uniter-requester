@@ -18,7 +18,6 @@
     "require": {
         "php": "^7.4|^8.0",
         "ext-json": "*",
-        "friendsofphp/php-cs-fixer": "*",
         "guzzlehttp/guzzle": "^7.4"
     },
     "require-dev": {
